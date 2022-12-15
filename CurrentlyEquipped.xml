@@ -1,0 +1,37 @@
+<GuiXml>
+  <Controls>
+    <TopLevelControl name="CEFrame" mouseEnabled="true" movable="true" clampedToScreen="true" hidden="false">
+      <Dimensions x="300" y="80" />
+      <Anchor point="TOPLEFT" relativeTo="GuiRoot" relativePoint="TOPLEFT" />
+
+      <OnMoveStop>
+        CurrentlyEquipped.SavePos()
+      </OnMoveStop>
+ 
+      <Controls>
+        <Label name="$(parent)Header" font="$(BOLD_FONT)|$(KB_24)|soft-shadow-thick" inheritAlpha="true" color="FF0000"
+            wrapMode="TRUNCATE" verticalAlignment="TOP" horizontalAlignment="LEFT" text="Currently Equipped">
+          <AnchorFill />
+        </Label>
+        <Label name="$(parent)Num1" text="0/0" color="00FF00" inheritAlpha="true" font="$(CHAT_FONT)|$(KB_20)|soft-shadow-thick" verticalAlignment="TOP" horizontalAlignment="LEFT" >
+					<Anchor point="LEFT" relativePoint="BOTTOM LEFT" relativeTo="$(parent)Header" offsetX="0" offsetY="0"/>
+				</Label>
+        <Label name="$(parent)Num2" text="0/0" color="00FF00" inheritAlpha="true" font="$(CHAT_FONT)|$(KB_20)|soft-shadow-thick" verticalAlignment="TOP" horizontalAlignment="LEFT" >
+					<Anchor point="LEFT" relativePoint="BOTTOM LEFT" relativeTo="$(parent)Num1" offsetX="0" offsetY="25"/>
+				</Label>
+
+        <Label name="$(parent)Set1" text="Equipped Set 1234567" color="00FF00" inheritAlpha="true" font="$(CHAT_FONT)|$(KB_20)|soft-shadow-thick" 
+            verticalAlignment="TOP" horizontalAlignment="LEFT" wrapMode="TRUNCATE">
+            <Dimensions x="175" y="25" />
+					<Anchor point="LEFT" relativePoint="RIGHT" relativeTo="$(parent)Num1" offsetX="15" offsetY="0" />
+				</Label>
+        <Label name="$(parent)Set2" text="Equipped Set 1234567" color="00FF00" inheritAlpha="true" font="$(CHAT_FONT)|$(KB_20)|soft-shadow-thick" 
+            verticalAlignment="TOP" horizontalAlignment="LEFT" wrapMode="TRUNCATE">
+            <Dimensions x="175" y="25"/>
+					<Anchor point="LEFT" relativePoint="RIGHT" relativeTo="$(parent)Num2" offsetX="15" offsetY="0"/>
+				</Label>
+
+      </Controls>
+    </TopLevelControl>
+  </Controls>
+</GuiXml>
