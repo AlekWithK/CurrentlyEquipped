@@ -1,6 +1,6 @@
 ## Title: Currently Equipped
 ## Author: |c1cf9e4A|r|c39f3cal|r|c55eeb1e|r|c71e897k|r
-## DependsOn: LibAddonMenu-2.0
+## DependsOn: LibAddonMenu-2.0 LibSetDetection
 ## APIVersion: 101036
 ## AddOnVersion: 1.0.0
 ## SavedVariables: CurrentlyEquippedSavedVariables
@@ -12,6 +12,7 @@
 ## You can read the full terms at https://account.elderscrollsonline.com/add-on-terms
 
 CurrentlyEquipped.lua
+CESetFunctions.lua
 CurrentlyEquippedMenu.lua
 CurrentlyEquipped.xml
 
