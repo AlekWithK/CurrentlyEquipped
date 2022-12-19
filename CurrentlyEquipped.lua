@@ -87,6 +87,7 @@ function CE.RegisterEvents()
     EVENT_MANAGER:RegisterForEvent(CE.name, EVENT_PLAYER_COMBAT_STATE, CE.HideUICombat)
     EVENT_MANAGER:RegisterForEvent(CE.name, EVENT_PLAYER_ACTIVATED, CE.PlayerActivate)
     EVENT_MANAGER:RegisterForEvent(CE.name, EVENT_INVENTORY_SINGLE_SLOT_UPDATE, CE.DelayUpdate)
+    EVENT_MANAGER:RegisterForEvent(CE.name, EVENT_PLAYER_DEACTIVATED, CE.ReloadDelay)
 
     --Filters keep event from firing twice on gear swap or on non-gear inv change
     EVENT_MANAGER:AddFilterForEvent(CE.name, EVENT_INVENTORY_SINGLE_SLOT_UPDATE, REGISTER_FILTER_BAG_ID, BAG_WORN)

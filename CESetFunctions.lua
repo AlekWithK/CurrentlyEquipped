@@ -1,20 +1,26 @@
 CurrentlyEquipped = CurrentlyEquipped or {}
 local CE = CurrentlyEquipped
 local LSD = LibSetDetection
-
+CE.delay = 3000
 
 --DEBUG--
 --function CE.DEBUG()
 --    EVENT_MANAGER:RegisterForEvent(CE.name, EVENT_RETICLE_TARGET_CHANGED, CE.EquippedSetInfo)
 --end
 
+function CE.ReloadDelay()
+    CE.delay = 3000
+end
+
 function CE.DelayUpdate(initial)
-    local delay = 1500
-    zo_callLater(function() CE.EquippedSetInfo() end, delay)
+    zo_callLater(function() CE.EquippedSetInfo() end, GetLatency() + CE.delay)
+    CE.delay = 1000
 end
 
 --Breaks table returned by GetEquippedSetsList() into 3 more manageable tables
 function CE.EquippedSetInfo()
+    if not CE.show_UI then return end
+
     CE.equip_sets = LSD.GetEquippedSetsTable()
 
     --Reset tables for next UI update
