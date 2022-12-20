@@ -24,7 +24,7 @@ CE.warn_color = {1, 0.8118, 0.2549, 1} --yellow
 
 local in_combat = false
 local ui_is_hidden = false
-local layer_pushed = false
+--local layer_pushed = false
 
 local TRIAL_ZONE_IDS = {
     [636] = true, -- Hel Ra Citadel
@@ -96,8 +96,8 @@ function CE.RegisterEvents()
     EVENT_MANAGER:RegisterForEvent(CE.name, EVENT_PLAYER_ACTIVATED, CE.PlayerActivate)
     EVENT_MANAGER:RegisterForEvent(CE.name, EVENT_INVENTORY_SINGLE_SLOT_UPDATE, CE.DelayUpdate)
     EVENT_MANAGER:RegisterForEvent(CE.name, EVENT_PLAYER_DEACTIVATED, CE.ReloadDelay)
-    EVENT_MANAGER:RegisterForEvent(CE.name, EVENT_ACTION_LAYER_POPPED, CE.LayerChange)
-    EVENT_MANAGER:RegisterForEvent(CE.name, EVENT_ACTION_LAYER_PUSHED, CE.LayerChange)
+    --EVENT_MANAGER:RegisterForEvent(CE.name, EVENT_ACTION_LAYER_POPPED, CE.LayerChange)
+    --EVENT_MANAGER:RegisterForEvent(CE.name, EVENT_ACTION_LAYER_PUSHED, CE.LayerChange)
 
     --Filters keep event from firing twice on gear swap or on non-gear inv change
     EVENT_MANAGER:AddFilterForEvent(CE.name, EVENT_INVENTORY_SINGLE_SLOT_UPDATE, REGISTER_FILTER_BAG_ID, BAG_WORN)
@@ -132,22 +132,22 @@ function CE.HideUICombat()
     if in_combat and CE.hideInCombat then 
         zo_callLater(function() CE.HideUI() end, (0 + (1000 * CE.hide_delay)))
         ui_is_hidden = true
-    elseif not layer_pushed then
+    else
         CEFrame:SetHidden(false)
         ui_is_hidden = false
     end
 end
 
 --layer_pushed tracks if UI is opened during combat, or combat starts when UI is open
-function CE.LayerChange(event)
-    if in_combat then layer_pushed = true end
-    if not ui_is_hidden and CE.lockedUI then
-        CE.HideUI()
-    elseif not in_combat then
-        CEFrame:SetHidden(false)
-        ui_is_hidden = false       
-    end
-end
+--function CE.LayerChange(event)
+    --if in_combat then layer_pushed = true end
+    --if not ui_is_hidden and CE.lockedUI then
+        --CE.HideUI()
+    --elseif not in_combat then
+        --CEFrame:SetHidden(false)
+        --ui_is_hidden = false       
+    --end
+--end
 
 function CE.HideUI()
     CEFrame:SetHidden(true)

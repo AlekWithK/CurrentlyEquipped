@@ -17,7 +17,6 @@ end
 function CE.DelayUpdate()
     zo_callLater(function() CE.EquippedSetInfo() end, GetLatency() + CE.delay)
     CE.delay = 1000
-    d("test")
 end
 
 --Breaks table returned by GetEquippedSetsList() into 3 more manageable tables
