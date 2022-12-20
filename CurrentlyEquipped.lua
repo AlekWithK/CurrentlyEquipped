@@ -5,11 +5,12 @@ CE.author = "|c1cf9e4A|r|c39f3cal|r|c55eeb1e|r|c71e897k|r|c8ee27dW|r|caadc63i|r|
 CE.version = "1.0.0"
 
 ----------------------------
------### CONSTANTS ###-----
+------### DEFAULTS ###------
 ----------------------------
 CE.lockedUI = true
 CE.hideInCombat = true
 CE.show_in_zone = false
+CE.hide_delay = 0
 CE.show_UI = false
 CE.x_offset = 1000
 CE.y_offset = 500
@@ -19,6 +20,11 @@ CE.rows = {}
 CE.head_color = {0.8353, 0.7922, 0.8039, 1} --white
 CE.comp_color = {0.4941, 1, 0.5098, 1} --green
 CE.incomp_color = {1, 0.3490, 0.2706, 1} --red
+CE.warn_color = {1, 0.8118, 0.2549, 1} --yellow
+
+local in_combat = false
+local ui_is_hidden = false
+local layer_pushed = false
 
 local TRIAL_ZONE_IDS = {
     [636] = true, -- Hel Ra Citadel
@@ -57,9 +63,11 @@ end
 function CE.RestoreDefaults()
     if CE.savedVariables.hideInCombat ~= nil then CE.hideInCombat = CE.savedVariables.hideInCombat end
     if CE.savedVariables.show_in_zone ~= nil then CE.show_in_zone = CE.savedVariables.show_in_zone end
+    CE.hide_delay = CE.savedVariables.hide_delay or CE.hide_delay
     CE.head_color = CE.savedVariables.head_color or CE.head_color
     CE.comp_color = CE.savedVariables.comp_color or CE.comp_color
     CE.incomp_color = CE.savedVariables.incomp_color or CE.incomp_color
+    CE.warn_color = CE.savedVariables.warn_color or CE.warn_color
 end
 
 function CE.InitUI()
@@ -88,6 +96,8 @@ function CE.RegisterEvents()
     EVENT_MANAGER:RegisterForEvent(CE.name, EVENT_PLAYER_ACTIVATED, CE.PlayerActivate)
     EVENT_MANAGER:RegisterForEvent(CE.name, EVENT_INVENTORY_SINGLE_SLOT_UPDATE, CE.DelayUpdate)
     EVENT_MANAGER:RegisterForEvent(CE.name, EVENT_PLAYER_DEACTIVATED, CE.ReloadDelay)
+    EVENT_MANAGER:RegisterForEvent(CE.name, EVENT_ACTION_LAYER_POPPED, CE.LayerChange)
+    EVENT_MANAGER:RegisterForEvent(CE.name, EVENT_ACTION_LAYER_PUSHED, CE.LayerChange)
 
     --Filters keep event from firing twice on gear swap or on non-gear inv change
     EVENT_MANAGER:AddFilterForEvent(CE.name, EVENT_INVENTORY_SINGLE_SLOT_UPDATE, REGISTER_FILTER_BAG_ID, BAG_WORN)
@@ -105,22 +115,50 @@ function CE.PlayerActivate(_, initial)
     else
         CE.show_UI = true
     end
-    CE.DelayUpdate(initial)
+    CE.DelayUpdate()
 end
 
-----------------------------
----### MENU FUNCTIONS ###---
-----------------------------
+-------------------------------
+---### UI SHOW/HIDE FUNC ###---
+-------------------------------
 function CE.MoveUI()
     if CE.lockedUI then CEFrame:SetMovable(true)
     else CEFrame:SetMovable(false) end
 end
 
 function CE.HideUICombat()
-    local inCombat = IsUnitInCombat("player")
+    in_combat = IsUnitInCombat("player")
 
-    if inCombat and CE.hideInCombat then CEFrame:SetHidden(true)
-    else CEFrame:SetHidden(false) end
+    if in_combat and CE.hideInCombat then 
+        zo_callLater(function() CE.HideUI() end, (0 + (1000 * CE.hide_delay)))
+        ui_is_hidden = true
+    elseif not layer_pushed then
+        CEFrame:SetHidden(false)
+        ui_is_hidden = false
+    end
+end
+
+--layer_pushed tracks if UI is opened during combat, or combat starts when UI is open
+function CE.LayerChange(event)
+    if in_combat then layer_pushed = true end
+    if not ui_is_hidden and CE.lockedUI then
+        CE.HideUI()
+    elseif not in_combat then
+        CEFrame:SetHidden(false)
+        ui_is_hidden = false       
+    end
+end
+
+function CE.HideUI()
+    CEFrame:SetHidden(true)
+    ui_is_hidden = true
+end
+
+--Need to resetUI when a set is removed so that extra row is removed
+function CE.ResetUI()
+    for i=1, CE.max_rows, 1 do
+        CE.rows[i]:SetHidden(true)
+    end 
 end
 
 ----------------------------
@@ -136,6 +174,9 @@ function CE.SaveHideInCombat(bool)
 
 function CE.SaveShowInZone(bool)
     CE.savedVariables.show_in_zone = bool end
+
+function CE.SaveHideDelay(value)
+    CE.savedVariables.hide_delay = value end
 
 function CE.SaveHeadColor(r, g, b, a)
     CE.savedVariables.head_color = {r, g, b, a}
@@ -155,11 +196,21 @@ function CE.SaveIncompColor(r, g, b, a)
     CE.UpdateUI()
 end
 
---Addon startup
+function CE.SaveWarnColor(r, g, b, a)
+    CE.savedVariables.warn_color = {r, g, b, a}
+    CE.warn_color = {r, g, b, a}
+    CE.UpdateUI()
+end
+
+----------------------------
+---### ADDON STARTUP ###----
+----------------------------
 function CE.OnAddOnLoaded(_, addonName)
     if addonName ~= CE.name then return end
 
     EVENT_MANAGER:UnregisterForEvent(CE.name, EVENT_ADD_ON_LOADED)
+    SLASH_COMMANDS["/cereset"] = CE.DelayUpdate
+
     CE.RegisterEvents()
     CE.Init()
 end 
