@@ -20,5 +20,10 @@ CurrentlyEquipped.xml
 Bindings.xml
 
 # Changelog 
+# Version 1.0.1
+# Added Rockgrove to ZoneID's 
+# Fixed an error when wearing too many sets (now supports 14)
+# Fixed a string format issue when language was set to French
+
 # Version 1.0.0
 # Initial Release

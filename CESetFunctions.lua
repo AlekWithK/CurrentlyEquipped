@@ -79,10 +79,14 @@ end
 
 function CE.UpdateUI()
     CE.ResetUI()
+
     if CE.show_UI then CEFrame:SetHidden(false) end
+
     for i=1, table.getn(CE.set_names), 1 do
+        local temp_table = StringEdit(CE.set_names[i], i)
+
         CE.rows[i].nums:SetText(CE.num_str[i])
-        CE.rows[i].names:SetText(CE.set_names[i])    
+        CE.rows[i].names:SetText(temp_table[1])    
         
         if (CE.set_num_equip[i] == CE.set_max_equip[i]) then
             CE.rows[i].nums:SetColor(unpack(CE.comp_color))
@@ -100,4 +104,15 @@ function CE.UpdateUI()
         CE.rows[i]:SetHidden(false)
     end
     CEFrameTitle:SetColor(unpack(CE.head_color))
+end
+
+--Remove "^--" from French (and other?) language set names
+function StringEdit(str, i)
+    local sep = "^"
+    local temp_table = {}
+
+    for str in string.gmatch(CE.set_names[i], "([^"..sep.."]+)") do
+        table.insert(temp_table, str)
+    end
+    return temp_table
 end

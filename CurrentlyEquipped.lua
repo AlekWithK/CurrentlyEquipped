@@ -2,7 +2,7 @@ CurrentlyEquipped = CurrentlyEquipped or {}
 local CE = CurrentlyEquipped
 CE.name = "CurrentlyEquipped"
 CE.author = "|c1cf9e4A|r|c39f3cal|r|c55eeb1e|r|c71e897k|r|c8ee27dW|r|caadc63i|r|cc6d74at|r|ce3d130h|r|cffcb16K|r"
-CE.version = "1.0.0"
+CE.version = "1.0.1"
 
 ----------------------------
 ------### DEFAULTS ###------
@@ -14,7 +14,7 @@ CE.hide_delay = 0
 CE.show_UI = false
 CE.x_offset = 1000
 CE.y_offset = 500
-CE.max_rows = 6
+CE.max_rows = 14
 CE.rows = {}
 
 CE.head_color = {0.8353, 0.7922, 0.8039, 1} --white
@@ -36,7 +36,8 @@ local TRIAL_ZONE_IDS = {
     [1051] = true, -- Cloudrest
     [1121] = true, -- Sunspire
     [1196] = true, -- Kyne's Aegis
-    [1344] = true -- Dreadsail Reef
+    [1344] = true, -- Dreadsail Reef
+    [1263] = true -- Rockgrove
 }
 
 local ARENA_ZONE_IDS = {
