@@ -6,7 +6,7 @@ function CE.AddonMenu()
     local menuOptions = {
         type = "panel",
         name = CE.name,
-        displayName = "Currently Equipped",
+        displayName = CE_DISPLAY_NAME,
         author = CE.author,
         version = CE.version,
         slashCommand = "/ce",
@@ -17,40 +17,40 @@ function CE.AddonMenu()
     local dataTable = {
         {
             type = "description",
-            text = "Displays your currently equipped sets, with colors indicating their status."
+            text = CE_MENU_DESCRIPTION
         },
         {
             type = "header",
-            name = "Options",
+            name = CE_MENU_OPTIONS_HEADER,
             width = "full",
         },
         {
 			type    = "checkbox",
-			name    = "Unlock UI",
-			tooltip = "Toggle 'On' to move display's on screen position",
+			name    = CE_MENU_UNLOCK_UI,
+			tooltip = CE_MENU_UNLOCK_UI_TIP,
 			default = false,
 			getFunc = function() return not CE.lockedUI end,
 			setFunc = function(newVal) CE.MoveUI() CE.lockedUI = not newVal; end,
 		},
         {
 			type    = "checkbox",
-			name    = "Only Show in Trials/Arenas",
-			tooltip = "Display will only show in trial and arena instances",
+			name    = CE_MENU_SHOW_IN_TRIAL_ARENA,
+			tooltip = CE_MENU_SHOW_IN_TRIAL_ARENA_TIP,
 			getFunc = function() return CE.show_in_zone end,
 			setFunc = function(newVal) CE.SaveShowInZone(newVal) CE.show_in_zone = newVal; end,
-			warning = "Will update on next zone change!"
+			warning = CE_MENU_SHOW_IN_TRIAL_ARENA_WARN
 		},
         {
 			type    = "checkbox",
-			name    = "Hide in Combat",
-			tooltip = "Hides display while in combat",
+			name    = CE_MENU_HIDE_IN_COMBAT,
+			tooltip = CE_MENU_HIDE_IN_COMBAT_TIP,
 			getFunc = function() return CE.hideInCombat end,
 			setFunc = function(newVal) CE.SaveHideInCombat(newVal) CE.hideInCombat = newVal; end,
 		},  
         {
 			type = "slider",
-			name = "Hide In Combat Delay",
-			tooltip = "Set number of seconds to wait before hiding display when combat starts",
+			name = CE_MENU_HIDE_IN_COMBAT_DELAY,
+			tooltip = CE_MENU_HIDE_IN_COMBAT_DELAY_TIP,
 			min = 0,
 			max = 15,
 			step = 1,	
@@ -62,13 +62,13 @@ function CE.AddonMenu()
 		},      
         {
             type = "header",
-            name = "Colors",
+            name = CE_MENU_COLORS_HEADER,
             width = "full",
         },
         {
 			type = "colorpicker",
-			name = "Header Color",
-			tooltip = "Set the color of \"Currently Equipped\"",
+			name = CE_MENU_HEADER_COLOR,
+			tooltip = CE_MENU_HEADER_COLOR_TIP,
 			getFunc = function() return unpack(CE.head_color) end,
 			setFunc = function(r,g,b,a) CE.SaveHeadColor(r, g, b, a) end,
 			width = "full",
@@ -76,8 +76,8 @@ function CE.AddonMenu()
 		},
         {
 			type = "colorpicker",
-			name = "Completed Sets",
-			tooltip = "Set the color completed sets are shown in",
+			name = CE_MENU_COMPLETE_SET_COLOR,
+			tooltip = CE_MENU_COMPLETE_SET_COLOR_TIP,
 			getFunc = function() return unpack(CE.comp_color) end,
 			setFunc = function(r,g,b,a) CE.SaveCompColor(r, g, b, a) end,
 			width = "full",
@@ -85,8 +85,8 @@ function CE.AddonMenu()
 		},
         {
 			type = "colorpicker",
-			name = "Incomplete Sets",
-			tooltip = "Set the color incomplete sets are shown in",
+			name = CE_MENU_INCOMPLETE_SET_COLOR,
+			tooltip = CE_MENU_INCOMPLETE_SET_COLOR_TIP,
 			getFunc = function() return unpack(CE.incomp_color) end,
 			setFunc = function(r,g,b,a) CE.SaveIncompColor(r, g, b, a) end,
 			width = "full",
@@ -94,8 +94,8 @@ function CE.AddonMenu()
 		},
         {
 			type = "colorpicker",
-			name = "Warning Color",
-			tooltip = "Set the color overcompleted and 1pc Monster sets are shown in",
+			name = CE_MENU_WARNING_COLOR,
+			tooltip = CE_MENU_WARNING_COLOR_TIP,
 			getFunc = function() return unpack(CE.warn_color) end,
 			setFunc = function(r,g,b,a) CE.SaveWarnColor(r, g, b, a) end,
 			width = "full",
@@ -103,13 +103,13 @@ function CE.AddonMenu()
 		},
         {
             type = "header",
-            name = "Debug",
+            name = CE_MENU_DEBUG_HEADER,
             width = "full",
         },
         {
             type = "button",
-            name = "Force Update",
-            tooltip = "Manually update the UI if an error occurs",
+            name = CE_MENU_FORCE_UPDATE,
+            tooltip = CE_MENU_FORCE_UPDATE_TIP,
             func = function() CE.DelayUpdate() end,
             width = "full",	--or "full" (optional)
         },

@@ -83,10 +83,11 @@ function CE.UpdateUI()
     if CE.show_UI then CEFrame:SetHidden(false) end
 
     for i=1, table.getn(CE.set_names), 1 do
-        local temp_table = StringEdit(CE.set_names[i], i)
+        --local temp_table = StringEdit(CE.set_names[i], i)
+        local format_name = zo_strformat(SI_ABILITY_NAME, CE.set_names[i])
 
         CE.rows[i].nums:SetText(CE.num_str[i])
-        CE.rows[i].names:SetText(temp_table[1])    
+        CE.rows[i].names:SetText(format_name)    
         
         if (CE.set_num_equip[i] == CE.set_max_equip[i]) then
             CE.rows[i].nums:SetColor(unpack(CE.comp_color))
@@ -107,6 +108,7 @@ function CE.UpdateUI()
 end
 
 --Remove "^--" from French (and other?) language set names
+--[[
 function StringEdit(str, i)
     local sep = "^"
     local temp_table = {}
@@ -116,3 +118,4 @@ function StringEdit(str, i)
     end
     return temp_table
 end
+]]

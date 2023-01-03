@@ -2,7 +2,7 @@ CurrentlyEquipped = CurrentlyEquipped or {}
 local CE = CurrentlyEquipped
 CE.name = "CurrentlyEquipped"
 CE.author = "|c1cf9e4A|r|c39f3cal|r|c55eeb1e|r|c71e897k|r|c8ee27dW|r|caadc63i|r|cc6d74at|r|ce3d130h|r|cffcb16K|r"
-CE.version = "1.0.1"
+CE.version = "1.1.0"
 
 ----------------------------
 ------### DEFAULTS ###------
@@ -80,6 +80,7 @@ function CE.InitUI()
         CE.rows[i].enabled = false;
     end
     CEFrameTitle:SetColor(unpack(CE.head_color))
+    CEFrameTitle:SetText(CE_DISPLAY_NAME)
 end
 
 --Restore UI position
