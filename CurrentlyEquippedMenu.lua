@@ -38,6 +38,7 @@ function CE.AddonMenu()
 			tooltip = "Display will only show in trial and arena instances",
 			getFunc = function() return CE.show_in_zone end,
 			setFunc = function(newVal) CE.SaveShowInZone(newVal) CE.show_in_zone = newVal; end,
+			warning = "Will update on next zone change!"
 		},
         {
 			type    = "checkbox",
